@@ -22,7 +22,7 @@ class Response extends AbstractResponse
      * @var string URL
      */
     protected $requestId = null;
-    
+
     /**
      * Is the transaction successful?
      *
@@ -96,7 +96,14 @@ class Response extends AbstractResponse
         if (isset($this->data['object']) && 'customer' === $this->data['object']) {
             return $this->data['id'];
         }
+
         if (isset($this->data['object']) && 'card' === $this->data['object']) {
+            if (!empty($this->data['customer'])) {
+                return $this->data['customer'];
+            }
+        }
+
+        if (isset($this->data['object']) && 'charge' === $this->data['object']) {
             if (!empty($this->data['customer'])) {
                 return $this->data['customer'];
             }
@@ -120,16 +127,18 @@ class Response extends AbstractResponse
             if (isset($this->data['default_card']) && !empty($this->data['default_card'])) {
                 return $this->data['default_card'];
             }
-            
+
             if (!empty($this->data['id'])) {
                 return $this->data['id'];
             }
         }
+
         if (isset($this->data['object']) && 'card' === $this->data['object']) {
             if (!empty($this->data['id'])) {
                 return $this->data['id'];
             }
         }
+
         if (isset($this->data['object']) && 'charge' === $this->data['object']) {
             if (! empty($this->data['source'])) {
                 if (! empty($this->data['source']['id'])) {
@@ -345,7 +354,7 @@ class Response extends AbstractResponse
 
         return null;
     }
-    
+
     /**
      * @return string
      */
