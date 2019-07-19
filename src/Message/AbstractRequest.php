@@ -231,13 +231,17 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
         $httpRequest  = $this->createClientRequest($data, $headers);
         $httpResponse = $httpRequest->send();
 
-        $this->response = new Response($this, $httpResponse->json());
-
+        $this->response = $this->createResponse($httpResponse->json());
         if ($httpResponse->hasHeader('Request-Id')) {
             $this->response->setRequestId((string) $httpResponse->getHeader('Request-Id'));
         }
 
         return $this->response;
+    }
+
+    protected function createResponse($data, $headers = [])
+    {
+        return $this->response = new Response($this, $data, $headers);
     }
 
     /**
