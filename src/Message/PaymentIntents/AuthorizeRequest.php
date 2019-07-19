@@ -209,11 +209,10 @@ class AuthorizeRequest extends AbstractRequest
      */
     public function getApplicationFee()
     {
-        $money = $this->getMoney('applicationFee');
+        $money = $this->getParameter('applicationFee');
 
         if ($money !== null) {
             $moneyFormatter = new DecimalMoneyFormatter($this->getCurrencies());
-
             return $moneyFormatter->format($money);
         }
 
@@ -228,10 +227,10 @@ class AuthorizeRequest extends AbstractRequest
      */
     public function getApplicationFeeInteger()
     {
-        $money = $this->getMoney('applicationFee');
+        $money = $this->getParameter('applicationFee');
 
         if ($money !== null) {
-            return (integer) $money->getAmount();
+            return (integer) $money;
         }
 
         return 0;
