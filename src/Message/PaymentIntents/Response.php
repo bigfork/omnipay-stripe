@@ -5,6 +5,7 @@
  */
 namespace Omnipay\Stripe\Message\PaymentIntents;
 
+use Omnipay\Common\Message\RedirectResponseInterface;
 use Omnipay\Stripe\Message\Response as BaseResponse;
 
 /**
@@ -14,7 +15,7 @@ use Omnipay\Stripe\Message\Response as BaseResponse;
  *
  * @see \Omnipay\Stripe\PaymentIntentsGateway
  */
-class Response extends BaseResponse
+class Response extends BaseResponse implements RedirectResponseInterface
 {
     /**
      * Get the status of a payment intents response.
@@ -153,6 +154,16 @@ class Response extends BaseResponse
             return $this->data['id'];
         }
 
+        return null;
+    }
+
+    public function getRedirectMethod()
+    {
+        return 'GET';
+    }
+
+    public function getRedirectData()
+    {
         return null;
     }
 }
